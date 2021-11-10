@@ -15,9 +15,9 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author alexis
  */
-public class Reporte_general_objeto {
+public class Report_Object {
     // ingresp de listas para el uso
-    private ArrayList<String> listaToken = new ArrayList<>();
+ 
     private ArrayList<TokenObject> Tokens = new ArrayList<>();
     
     // ingreso de errores por si hay
@@ -25,46 +25,60 @@ public class Reporte_general_objeto {
     private String lexema = "";
     private int fila = 1;
     private int columna = 0;
+    //----------------------------------
     private JTable tabla;
-    private int estadoAnterio = 0;
-    private int contador = 0;
+    // tabla
+    
+    // valores temporales
+       private ArrayList<String> TokenAnalisis = new ArrayList<>();
+        private int FirstState = 0;
+        private int contador = 0;
 
-    public Reporte_general_objeto() {
+       public Report_Object() {
         this.listarTokens();
     }
 
-    /**
-     * Imprime en el JTable los reportes recopilados
-     *
-     * @param tabla
-     */
+// ingreso a la tabla 
     public void enlistarReporte(JTable tabla) {
         this.tabla = tabla;
         int index = 0;
         DefaultTableModel modelo = new DefaultTableModel();
         this.tabla.setModel(modelo);
-        modelo.addColumn("NOMBRE TOKEN");
-        modelo.addColumn("LEXEMA");
-        modelo.addColumn("FILA");
-        modelo.addColumn("COLUMNA");
+        modelo.addColumn("Token");
+        modelo.addColumn("Lexema");
+        modelo.addColumn("Fila");
+        modelo.addColumn("Columna");
         for (TokenObject token : this.Tokens) {
-            modelo.addRow(new Object[]{this.nombreParaListado(token.getToken()), token.getLexema(), token.getFila(), token.getColumna()});
+            modelo.addRow(new Object[]{this.nombreParaListado(token.getToken()),    
+                                                                token.getLexema(), 
+                                                                token.getFila(), 
+                                                                token.getColumna()});
             index++;
         }
     }
+   // se ingresa en la lista lo que tiene que analizar
+    private void listarTokens() {
+         this.TokenAnalisis.add("id");
+        this.TokenAnalisis.add("Numero");
+        this.TokenAnalisis.add("Reservada");
+        this.TokenAnalisis.add("Literal");
+        this.TokenAnalisis.add("Comentario");
+        this.TokenAnalisis.add("Literal");
+        this.TokenAnalisis.add("Especial");
+        this.TokenAnalisis.add("Igual");
+        this.TokenAnalisis.add("Agrupacion");
+        this.TokenAnalisis.add("Operador");
+        this.TokenAnalisis.add("Error");
 
-    /**
-     * Recopila reportes, de fila , columna, y sus respectivos tokens
-     *
-     * @param caracter
-     * @param estado
-     * @param lengt
-     */
+    }
+  // determinacion de lo que vendria en el reporte 
     public void recopilarReporte(char caracter, int estado, int lengt) {
+        
+        //estp se determina segun el valor del estado 
         switch (estado) {
             case -3:
-                if (!"".equals(lexema) && !this.esNoAceptcion(caracter, this.estadoAnterio)) {
-                    TokenObject tokens = new TokenObject(nombreToken(this.estadoAnterio, lexema), lexema, fila, columna);
+                if (!"".equals(lexema) && !this.noAceptable(caracter, this.FirstState)) {
+                    TokenObject tokens = new TokenObject(nombreToken(this.FirstState, lexema), lexema, fila, columna);
                     Tokens.add(tokens);
                 }
                 this.fila++;
@@ -72,16 +86,16 @@ public class Reporte_general_objeto {
                 this.lexema = "";
                 break;
             case -2:
-                if (!"".equals(lexema) && !this.esNoAceptcion(caracter, this.estadoAnterio)) {
-                    TokenObject tokens = new TokenObject(nombreToken(this.estadoAnterio, lexema), lexema, fila, columna);
+                if (!"".equals(lexema) && !this.noAceptable(caracter, this.FirstState)) {
+                    TokenObject tokens = new TokenObject(nombreToken(this.FirstState, lexema), lexema, fila, columna);
                     Tokens.add(tokens);
                 }
                 this.columna++;
                 this.lexema = "";
                 break;
             case -4:
-                if (!"".equals(lexema) && !this.esNoAceptcion(caracter, this.estadoAnterio)) {
-                    TokenObject tokens = new TokenObject(nombreToken(this.estadoAnterio, lexema), lexema, fila, columna);
+                if (!"".equals(lexema) && !this.noAceptable(caracter, this.FirstState)) {
+                    TokenObject tokens = new TokenObject(nombreToken(this.FirstState, lexema), lexema, fila, columna);
                     Tokens.add(tokens);
                     this.columna++;
                     this.lexema = "";
@@ -92,7 +106,7 @@ public class Reporte_general_objeto {
                 }
                 break;
             case 10:
-                if (!this.esNoAceptcion(caracter, this.estadoAnterio)) {
+                if (!this.noAceptable(caracter, this.FirstState)) {
                     TokenObject tokens1 = new TokenObject(nombreToken(10, caracter + ""), caracter + "", fila, columna);
                     Tokens.add(tokens1);
                     this.columna++;
@@ -102,7 +116,7 @@ public class Reporte_general_objeto {
             default:
                 this.columna++;
                 this.lexema += "" + caracter;
-                if (this.contador == lengt - 1 && !this.esNoAceptcion(caracter, estado)) {
+                if (this.contador == lengt - 1 && !this.noAceptable(caracter, estado)) {
                     TokenObject tokens = new TokenObject(nombreToken(estado, lexema), lexema, fila, columna);
                     Tokens.add(tokens);
                 }
@@ -110,41 +124,38 @@ public class Reporte_general_objeto {
                 break;
         }
         this.contador++;
-        this.estadoAnterio = estado;
+        this.FirstState = estado;
     }
 
-    private boolean esNoAceptcion(char caracter, int estado) {
-        boolean esNoAceptacion = false;
+    
+    // en caso esto no sea validon 
+    private boolean noAceptable(char caracter, int estado) {
+        boolean NosePuede = false;
         if (estado == 4 || estado == 1) {
             this.reporteErrores.recopilador(caracter, -1);
-            esNoAceptacion = true;
+            NosePuede = true;
         }
 
-        return esNoAceptacion;
+        return NosePuede;
     }
-
-    /**
-     *
-     * @param estado
-     * @return
-     */
+// tipos de nombre del token en el analisis 
     private String nombreToken(int estado, String lexema) {
         String token = "";
         switch (estado) {
             case 2:
-                token = listaToken.get(4);
+                token = TokenAnalisis.get(4);
                 break;
             case 3:
-                token = listaToken.get(0);
+                token = TokenAnalisis.get(0);
                 break;
             case 6:
-                token = listaToken.get(5);
+                token = TokenAnalisis.get(5);
                 break;
             case 7:
-                token = listaToken.get(1);
+                token = TokenAnalisis.get(1);
                 break;
             case 8:
-                token = listaToken.get(6);
+                token = TokenAnalisis.get(6);
                 break;
             case 9:
                 token = lexema;
@@ -156,41 +167,17 @@ public class Reporte_general_objeto {
                 token = lexema;
                 break;
             default:
-                token = listaToken.get(10);
+                token = TokenAnalisis.get(10);
                 break;
         }
 
         return token;
     }
 
-    /**
-     * nombre de los token a identificar
-     */
-    private void listarTokens() {
-        this.listaToken.add("id");
-        this.listaToken.add("Numero");
-        this.listaToken.add("Reservada");
-        this.listaToken.add("Literal");
-        this.listaToken.add("Comentario");
-        this.listaToken.add("Literal");
-        this.listaToken.add("Especial");
-        this.listaToken.add("Igual");
-        this.listaToken.add("Agrupacion");
-        this.listaToken.add("Operador");
-        this.listaToken.add("Error");
+ 
 
-    }
-
-    public void pabrasReservadas() {
-        for (TokenObject token : this.Tokens) {
-            for (Tipos value : Tipos.values()) {
-                if (token.getLexema().equals(value.name())) {
-                    token.setToken(value.name());
-                }
-            }
-        }
-    }
-
+   
+// ingreso de los nombres y categoria 
     public String nombreParaListado(String tipoToken) {
         switch (tipoToken) {
             case "id":
@@ -239,7 +226,18 @@ public class Reporte_general_objeto {
 
         return tipoToken;
     }
-
+    // algun tipo de palabra especial
+     public void pabrasReservadas() {
+        for (TokenObject token : this.Tokens) {
+            for (Tipos value : Tipos.values()) {
+                // si si cumple lo regresa
+                if (token.getLexema().equals(value.name())) {
+                    token.setToken(value.name());
+                }
+            }
+        }
+    }
+// ingreso de ggeters y setters
     public Errors_Object getReporteErrores() {
         return reporteErrores;
     }

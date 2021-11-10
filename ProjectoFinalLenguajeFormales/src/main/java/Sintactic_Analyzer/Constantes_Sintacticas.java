@@ -12,12 +12,12 @@ public enum Constantes_Sintacticas {
     
     // tipo de constantes sintacticas
      FINALIZAR("FINALIZAR"),
-   INICIAR("ESCRIBIR, SI, REPETIR, O ID"),
-   ESCRITURA("ESCRIBIR"),
-   LEXEMA("LITERAL, ID, O NUMERO"),
    REPETIR("REPETIR"),
    TERMINALH("NUMERO O ID"),
    CONDICINAL("SI"),
+   INICIAR("ESCRIBIR, SI, REPETIR, O ID"),
+   ESCRITURA("ESCRIBIR"),
+   LEXEMA("LITERAL, ID, O NUMERO"),
    BOOLEAN("VERDADERO O FALSO"),
    PRODUCCIONX("NUMERO, ID, +, * (, ), O FIN"),
    PRODUCCIONXP("NUMERO, ID, +, * (, ), O FIN"),
@@ -27,18 +27,20 @@ public enum Constantes_Sintacticas {
    ASIGNACION("ID"),
    EPCILONE("NUMERO, ID, +, * (, ), O FIN");
    
-   private String espera;
+   private String caracteres;
    
-   private Constantes_Sintacticas(String Espera){
-       this.espera = Espera;
+  
+
+    public String getCaracteres() {
+        return caracteres;
+    }
+
+    public void setCaracteres(String caracteres) {
+        this.caracteres = caracteres;
+    }
+    
+    // constructor
+    private Constantes_Sintacticas(String caracteres){
+       this.caracteres = caracteres;
    }
-
-    public String getEspera() {
-        return espera;
-    }
-
-    public void setEspera(String espera) {
-        this.espera = espera;
-    }
-   
 }

@@ -8,7 +8,7 @@ package Lexical_analyzer;
 
 import Objects.TokenObject;
 import Reports.Errors_Object;
-import Reports.Reporte_general_objeto;
+import Reports.Report_Object;
 import java.util.ArrayList;
 import javax.swing.JTextArea;
 
@@ -19,7 +19,7 @@ import javax.swing.JTextArea;
 public class LexicalAnalyzer {
     // Reportes de los objetos
     private Errors_Object reporteErrores = new Errors_Object();
-    private Reporte_general_objeto reporte = new Reporte_general_objeto();
+    private Report_Object reporte = new Report_Object();
    
     
 
@@ -138,7 +138,7 @@ public class LexicalAnalyzer {
         return reporteErrores;
     }
 
-    public Reporte_general_objeto getReporte() {
+    public Report_Object getReporte() {
         return reporte;
     }
 }

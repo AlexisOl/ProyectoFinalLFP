@@ -6,7 +6,7 @@
 package GUI;
 
 
-import Reports.Reporte_general_objeto;
+import Reports.Report_Object;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
@@ -18,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Reporte_Lexema extends javax.swing.JFrame {
 
-  private Reporte_general_objeto GeneralReport;
+  private Report_Object GeneralReport;
   public Reporte_Lexema() {
       initComponents();
   }
@@ -27,7 +27,7 @@ public class Reporte_Lexema extends javax.swing.JFrame {
   }
 
    
-  public void callTables(Reporte_general_objeto reportes) {
+  public void callTables(Report_Object reportes) {
       this.GeneralReport = reportes;
       showTables();
   }

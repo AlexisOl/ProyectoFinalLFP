@@ -12,7 +12,7 @@ package Sintactic_Analyzer;
 public class Terminal_Alphabet {
        
    // tiipos de estados y sus valores existentes en la produccion
-    public int getEstado(Productions Valores) {
+    public int getEstado(Constantes_Sintacticas Valores) {
         int valor = 0;
         switch (Valores) {
             case INICIAR:

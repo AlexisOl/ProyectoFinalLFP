@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class SintacticAnalyzer {
       private final Stack_Automata pila = new Stack_Automata();
     private final Matrix matriz = new Matrix();
-    private Productions produccion;
+    private Constantes_Sintacticas produccion;
     private final Terminal_Alphabet alfabeto = new Terminal_Alphabet();
     private TokenObject token;
     private ArrayList<TokenObject> Tokens = new ArrayList<>();
@@ -38,7 +38,7 @@ public class SintacticAnalyzer {
                 index++;
             }
             while (comprobar(this.pila.getPila().peek())) {
-                this.produccion = (Productions) this.pila.getPila().peek();
+                this.produccion = (Constantes_Sintacticas) this.pila.getPila().peek();
                 String valorMatriz = this.matriz.getMatriz()[this.alfabeto.getEstado(produccion)][this.alfabeto.getValorTernminal(this.token.getToken())];
                 if (valorMatriz == null) {
                     String descripError = "El analizador sintactico esperba " + produccion.getEspera();
@@ -99,8 +99,8 @@ public class SintacticAnalyzer {
      */
     private boolean comprobar(Object ob) {
         boolean esEnum = false;
-        Productions[] pro = Productions.values();
-        for (Productions producciones : pro) {
+        Constantes_Sintacticas[] pro = Constantes_Sintacticas.values();
+        for (Constantes_Sintacticas producciones : pro) {
             esEnum = producciones.equals(ob);
             if (esEnum) {
                 break;

@@ -16,8 +16,8 @@ public class Stack_Automata {
       private Stack pila = new Stack();
 // se agreaga inicip y fin
     public Stack_Automata() {
-        this.pila.push(Productions.FINALIZAR.name());
-        this.pila.push(Productions.INICIAR);
+        this.pila.push(Constantes_Sintacticas.FINALIZAR.name());
+        this.pila.push(Constantes_Sintacticas.INICIAR);
     }
 
     // se determian los push o pops 
@@ -28,28 +28,28 @@ public class Stack_Automata {
                 this.pila.pop();
                 switch (caracteres) {
                     case "ES":
-                        pila.push(Productions.INICIAR);
-                        pila.push(Productions.ESCRITURA);
+                        pila.push(Constantes_Sintacticas.INICIAR);
+                        pila.push(Constantes_Sintacticas.ESCRITURA);
                         break;
                     case "AS":
-                        pila.push(Productions.INICIAR);
-                        pila.push(Productions.ASIGNACION);
+                        pila.push(Constantes_Sintacticas.INICIAR);
+                        pila.push(Constantes_Sintacticas.ASIGNACION);
                         break;
                     case "RS":
-                        pila.push(Productions.INICIAR);
-                        pila.push(Productions.REPETIR);
+                        pila.push(Constantes_Sintacticas.INICIAR);
+                        pila.push(Constantes_Sintacticas.REPETIR);
                         break;
                     case "CS":
-                        pila.push(Productions.INICIAR);
-                        pila.push(Productions.CONDICINAL);
+                        pila.push(Constantes_Sintacticas.INICIAR);
+                        pila.push(Constantes_Sintacticas.CONDICINAL);
                         break;
                     case "$":
-                        pila.push(Productions.EPCILONE);
+                        pila.push(Constantes_Sintacticas.EPCILONE);
                         break;
                     case "ESCRIBIR L FIN E":
-                        pila.push(Productions.ESCRITURA);
+                        pila.push(Constantes_Sintacticas.ESCRITURA);
                         pila.push("FIN");
-                        pila.push(Productions.LEXEMA);
+                        pila.push(Constantes_Sintacticas.LEXEMA);
                         pila.push("ESCRIBIR");
                         break;
                     case "Literal":
@@ -62,19 +62,19 @@ public class Stack_Automata {
                         pila.push("id");
                         break;
                     case "REPETIR H INICIAR E FIN R":
-                        pila.push(Productions.REPETIR);
+                        pila.push(Constantes_Sintacticas.REPETIR);
                         pila.push("FIN");
-                        pila.push(Productions.ESCRITURA);
+                        pila.push(Constantes_Sintacticas.ESCRITURA);
                         pila.push("INICIAR");
-                        pila.push(Productions.TERMINALH);
+                        pila.push(Constantes_Sintacticas.TERMINALH);
                         pila.push("REPETIR");
                         break;
                     case "Si B ENTONCES E FIN C":
-                        pila.push(Productions.CONDICINAL);
+                        pila.push(Constantes_Sintacticas.CONDICINAL);
                         pila.push("FIN");
-                        pila.push(Productions.ESCRITURA);
+                        pila.push(Constantes_Sintacticas.ESCRITURA);
                         pila.push("ENTONCES");
-                        pila.push(Productions.BOOLEAN);
+                        pila.push(Constantes_Sintacticas.BOOLEAN);
                         pila.push("SI");
                         break;
                     case "VERDADERO":
@@ -84,32 +84,32 @@ public class Stack_Automata {
                         pila.push("FALSO");
                         break;
                     case "TX’":
-                        pila.push(Productions.PRODUCCIONXP);
-                        pila.push(Productions.PRODUCCIONT);
+                        pila.push(Constantes_Sintacticas.PRODUCCIONXP);
+                        pila.push(Constantes_Sintacticas.PRODUCCIONT);
                         break;
                     case "+TX’":
-                        pila.push(Productions.PRODUCCIONXP);
-                        pila.push(Productions.PRODUCCIONT);
+                        pila.push(Constantes_Sintacticas.PRODUCCIONXP);
+                        pila.push(Constantes_Sintacticas.PRODUCCIONT);
                         pila.push("+");
                         break;
                     case "FT’":
-                        pila.push(Productions.PRODUCCIONTP);
-                        pila.push(Productions.PRODUCCIONF);
+                        pila.push(Constantes_Sintacticas.PRODUCCIONTP);
+                        pila.push(Constantes_Sintacticas.PRODUCCIONF);
                         break;
                     case "*FT’":
-                        pila.push(Productions.PRODUCCIONTP);
-                        pila.push(Productions.PRODUCCIONF);
+                        pila.push(Constantes_Sintacticas.PRODUCCIONTP);
+                        pila.push(Constantes_Sintacticas.PRODUCCIONF);
                         pila.push("*");
                         break;
                     case "(X)":
                         pila.push(")");
-                        pila.push(Productions.PRODUCCIONX);
+                        pila.push(Constantes_Sintacticas.PRODUCCIONX);
                         pila.push("(");
                         break;
                     case "id = X FIN A":
-                        pila.push(Productions.ASIGNACION);
+                        pila.push(Constantes_Sintacticas.ASIGNACION);
                         pila.push("FIN");
-                        pila.push(Productions.PRODUCCIONX);
+                        pila.push(Constantes_Sintacticas.PRODUCCIONX);
                         pila.push("=");
                         pila.push("id");
                         break;
@@ -125,13 +125,13 @@ public class Stack_Automata {
                         this.pila.pop();
                     }
                 } else {
-                    if (this.pila.contains(Productions.PRODUCCIONXP)) {
-                        while (!Productions.PRODUCCIONXP.equals(this.pila.peek())) {
+                    if (this.pila.contains(Constantes_Sintacticas.PRODUCCIONXP)) {
+                        while (!Constantes_Sintacticas.PRODUCCIONXP.equals(this.pila.peek())) {
                             this.pila.pop();
                         }
                     } else {
                       // ESTO en iniciar
-                        while (!Productions.INICIAR.equals(this.pila.peek())) {
+                        while (!Constantes_Sintacticas.INICIAR.equals(this.pila.peek())) {
                             this.pila.pop();
                         }
                     }
@@ -155,8 +155,8 @@ public class Stack_Automata {
 //--------------------------------------------------------------------------
     public boolean comprobar(Object ob) {
         boolean esEnum = false;
-        Productions[] pro = Productions.values();
-        for (Productions producciones : pro) {
+        Constantes_Sintacticas[] pro = Constantes_Sintacticas.values();
+        for (Constantes_Sintacticas producciones : pro) {
             esEnum = producciones.equals(ob);
             if (esEnum) {
                 break;

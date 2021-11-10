@@ -6,7 +6,7 @@ package Out_Functions;
 
 import Helper.recolecccion;
 import Objects.TokenObject;
-import Sintactic_Analyzer.Productions;
+import Sintactic_Analyzer.Constantes_Sintacticas;
 
 
 /**
@@ -16,13 +16,18 @@ import Sintactic_Analyzer.Productions;
 public class Escribir {
         private boolean recolectando = false;
     
-    public void recolectarEscribir(TokenObject token, Productions produccion, recolecccion tabla, Integer repiticiones){
-        if (produccion.equals(Productions.ESCRITURA) && token.getToken().equalsIgnoreCase("ESCRIBIR")) {
+        
+        // recolecta datos en caso sea de escritura y tenga escribir
+    public void recolectarEscribir(TokenObject token, Constantes_Sintacticas produccion, recolecccion tabla, Integer repiticiones){
+        if (produccion.equals(Constantes_Sintacticas.ESCRITURA) && token.getToken().equalsIgnoreCase("ESCRIBIR")) {
             recolectando = true;
         }
       
     }
 
+    
+    
+    // getters y setters
     public boolean isRecolectando() {
         return recolectando;
     }

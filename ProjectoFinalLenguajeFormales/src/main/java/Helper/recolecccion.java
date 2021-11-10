@@ -5,7 +5,7 @@
 package Helper;
 
 import Objects.TokenObject;
-import Sintactic_Analyzer.Productions;
+import Sintactic_Analyzer.Constantes_Sintacticas;
 import java.util.ArrayList;
 
 /**
@@ -19,7 +19,7 @@ public class recolecccion {
 // bandera de recollecion
     private boolean recolctando = false;
 // metood de obtener simbolos de sintactico
-    public void recolectarAsignacion(Productions produccion, TokenObject token) {
+    public void recolectarAsignacion(Constantes_Sintacticas produccion, TokenObject token) {
         if (produccion.equals(produccion.ASIGNACION) && token.getToken().equalsIgnoreCase("id")) {
             recolctando = true;
         }

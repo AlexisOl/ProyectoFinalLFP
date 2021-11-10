@@ -8,7 +8,9 @@ package Sintactic_Analyzer;
  *
  * @author alexis
  */
-public enum Productions {
+public enum Constantes_Sintacticas {
+    
+    // tipo de constantes sintacticas
      FINALIZAR("FINALIZAR"),
    INICIAR("ESCRIBIR, SI, REPETIR, O ID"),
    ESCRITURA("ESCRIBIR"),
@@ -27,7 +29,7 @@ public enum Productions {
    
    private String espera;
    
-   private Productions(String Espera){
+   private Constantes_Sintacticas(String Espera){
        this.espera = Espera;
    }
 
